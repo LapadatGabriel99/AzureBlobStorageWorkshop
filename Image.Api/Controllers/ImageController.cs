@@ -26,9 +26,17 @@ namespace Image.Api.Controllers
 
         [HttpPost]
         [Route("upload")]
-        public async Task<ActionResult<string>> Upload(IFormFile formFile)
+        public async Task<ActionResult> Upload(IFormFile formFile)
         {
-            return Ok();
+            var blobName = Guid.NewGuid() + Path.GetExtension(formFile.FileName);
+            var fileStream = formFile.OpenReadStream();
+
+            var result = await _blobService.UploadBlob("sample-container", blobName, fileStream, formFile.ContentType);
+
+            if (!result)
+                return BadRequest("Unable to upload file to azure storage!");
+
+            return Ok("File uploaded successfully!");
         }
     }
 }
