@@ -20,18 +20,20 @@ namespace Image.Api.Services
             var blobContainerClient = await _blobServiceClient.GetBlobContainerClientAsync(containerName);
             var blobClient = blobContainerClient.GetBlobClient(blobName);
 
-            var blobDownloadResult = (await blobClient.DownloadContentAsync()).Value;
+            var blobDownloadResult = await blobClient.DownloadContentAsync();
 
-            if (blobDownloadResult is null)
+            if (blobDownloadResult.GetRawResponse().IsError)
             {
                 throw new Exception("Unable to download blob!");
             }
 
+            var blobContent = blobDownloadResult.Value;
+
             var blobFileResult = new BlobFileResult
             {
                 FileName = blobName,
-                ContentType = blobDownloadResult.Details.ContentType,
-                FileStream = blobDownloadResult.Content.ToStream()
+                ContentType = blobContent.Details.ContentType,
+                FileStream = blobContent.Content.ToStream()
             };
 
             return blobFileResult;
