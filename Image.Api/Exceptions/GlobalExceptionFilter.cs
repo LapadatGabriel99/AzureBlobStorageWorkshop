@@ -19,6 +19,7 @@ namespace Image.Api.Exceptions
             response.Errors.Add($"StackTrace: {context.Exception.StackTrace}");
 
             context.Result = new InternalServerErrorObjectResult(response);
+            context.ExceptionHandled = true;
         }
     }
 }
