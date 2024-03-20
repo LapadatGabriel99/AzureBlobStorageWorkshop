@@ -21,7 +21,9 @@ namespace Image.Api.Controllers
         [Route("download")]
         public async Task<ActionResult<string>> Download([FromQuery] string fileName)
         {
-            return Ok();
+            var blobFileResult = await _blobService.DownloadBlob("sample-container", fileName);
+
+            return File(blobFileResult.FileStream, blobFileResult.ContentType, blobFileResult.FileName);
         }
 
         [HttpPost]
