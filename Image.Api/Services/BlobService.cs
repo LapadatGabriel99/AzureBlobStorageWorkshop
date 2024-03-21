@@ -39,6 +39,14 @@ namespace Image.Api.Services
             return blobFileResult;
         }
 
+        public async Task<string> RetrieveBlob(string containerName, string blobName)
+        {
+            var blobContainerClient = await _blobServiceClient.GetBlobContainerClientAsync(containerName);
+            var blobClient = blobContainerClient.GetBlobClient(blobName);
+
+            return blobClient.Uri.AbsoluteUri;  
+        }
+
         public async Task<bool> UploadBlob(string containerName, string blobName, Stream fileStream, string contentType)
         {
             var blobContainerClient = await _blobServiceClient.GetBlobContainerClientAsync(containerName);

@@ -7,5 +7,7 @@ namespace Image.Api.Services.Contracts
         Task<bool> UploadBlob(string containerName, string blobName, Stream fileStream, string contentType);
 
         Task<BlobFileResult> DownloadBlob(string containerName, string blobName);
+
+        Task<string> RetrieveBlob(string containerName, string blobName);
     }
 }
