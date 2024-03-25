@@ -26,7 +26,7 @@ namespace Image.Api.Services
 
             if (blobDownloadResult.GetRawResponse().IsError)
             {
-                throw new Exception("Unable to download blob!");
+                throw new Exception($"Unable to download blob {blobName}!");
             }
 
             var blobContent = blobDownloadResult.Value;
@@ -61,6 +61,21 @@ namespace Image.Api.Services
             var result = await blobClient.UploadAsync(fileStream, blobHttpHeaders);
 
             return result is not null;
+        }
+
+        public async Task<bool> DeleteBlob(string containerName, string blobName)
+        {
+            var blobContainerClient = await _blobServiceClient.GetBlobContainerClientAsync(containerName);
+            var blobClient = blobContainerClient.GetBlobClient(blobName);
+
+            var blobDeleteResult = await blobClient.DeleteIfExistsAsync();
+
+            if (blobDeleteResult.GetRawResponse().IsError)
+            {
+                throw new Exception($"Unable to delete blob {blobName}!");
+            }
+
+            return blobDeleteResult.Value;
         }
     }
 }

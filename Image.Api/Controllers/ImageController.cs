@@ -54,5 +54,19 @@ namespace Image.Api.Controllers
 
             return Ok($"File with blob id {blobName} uploaded successfully!");
         }
+
+        [HttpDelete]
+        [Route("delete")]
+        public async Task<ActionResult> Delete([FromQuery] string fileName)
+        {
+            var containerName = _configuration.GetValue<string>("AzureBlobStorageContainer");
+
+            var result = await _blobService.DeleteBlob(containerName, fileName);
+
+            if (!result)
+                return BadRequest($"Unable to delete file with blob id {fileName} from azure storage!");
+
+            return Ok($"File with blob id {fileName} deleted successfully!");
+        }
     }
 }

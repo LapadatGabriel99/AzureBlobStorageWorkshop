@@ -9,5 +9,7 @@ namespace Image.Api.Services.Contracts
         Task<BlobFileResult> DownloadBlob(string containerName, string blobName);
 
         Task<string> RetrieveBlob(string containerName, string blobName);
+
+        Task<bool> DeleteBlob(string containerName, string blobName);
     }
 }

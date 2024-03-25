@@ -14,7 +14,7 @@ namespace Image.Api.Extensions
                 BlobName = blobClient.Name,
                 Resource = "b", // b for blob
                 StartsOn = DateTimeOffset.UtcNow,
-                ExpiresOn = DateTimeOffset.UtcNow.AddMinutes(1),
+                ExpiresOn = DateTimeOffset.UtcNow.AddMinutes(5),
             };
 
             sasBuilder.SetPermissions(BlobSasPermissions.Read);
