@@ -16,7 +16,7 @@ namespace Image.Api.Services
 
         public async Task<string> GetSecret(string secretName)
         {
-            var secret = await _secretClient.GetSecretAsync(_configuration.GetValue<string>(secretName););
+            var secret = await _secretClient.GetSecretAsync(_configuration.GetValue<string>(secretName));
 
             if (secret.GetRawResponse().IsError)
             {
