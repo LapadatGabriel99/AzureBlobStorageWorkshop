@@ -56,6 +56,12 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_60D7D71746F646E29AF38DCEBEFB34DE }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_07FA25C875D1436EB2D08300D81CEBCA }}
 
+      - name: Get secrets from Azure Key Vault
+        uses: Azure/get-keyvault-secrets@v1
+        with:
+          key-vault-uri: ${{ vars.AZURE_KEY_VAULT_URI }}
+          storage-account-key: ${{ vars.AZURE_KEY_VAULT_STORAGEACCOUNTKEY }}
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2

@@ -9,12 +9,12 @@ namespace Image.Api.Services
     public class BlobService : IBlobService
     {
         private readonly BlobServiceClient _blobServiceClient;
-        private readonly IConfiguration _configuration;
+        private readonly ISecretService _secretService;
 
-        public BlobService(BlobServiceClient blobServiceClient, IConfiguration configuration)
+        public BlobService(BlobServiceClient blobServiceClient, ISecretService secretService)
         {
             _blobServiceClient = blobServiceClient;
-            _configuration = configuration;
+            _secretService = secretService;
         }
 
         public async Task<BlobFileResult> DownloadBlob(string containerName, string blobName)
@@ -46,7 +46,7 @@ namespace Image.Api.Services
             var blobContainerClient = await _blobServiceClient.GetBlobContainerClientAsync(containerName);
             var blobClient = blobContainerClient.GetBlobClient(blobName);
 
-            return blobClient.GetBlobUri(_configuration);  
+            return await blobClient.GetBlobUri(_secretService);  
         }
 
         public async Task<bool> UploadBlob(string containerName, string blobName, Stream fileStream, string contentType)

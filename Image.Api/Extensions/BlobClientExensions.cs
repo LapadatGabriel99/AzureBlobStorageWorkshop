@@ -1,12 +1,13 @@
 ﻿using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
+using Image.Api.Services.Contracts;
 
 namespace Image.Api.Extensions
 {
     public static class BlobClientExensions
     {
-        public static string GetBlobUri(this BlobClient blobClient, IConfiguration configuration)
+        public static async Task<string> GetBlobUri(this BlobClient blobClient, ISecretService secretService)
         {
             BlobSasBuilder sasBuilder = new BlobSasBuilder()
             {
@@ -19,7 +20,7 @@ namespace Image.Api.Extensions
 
             sasBuilder.SetPermissions(BlobSasPermissions.Read);
 
-            var storageAccountKey = configuration.GetValue<string>("AzureBlobStorageKey");
+            var storageAccountKey = await secretService.GetSecret("AzureBlobStorageKey");
             var sasToken = sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(blobClient.AccountName, storageAccountKey)).ToString();
 
             return $"{blobClient.Uri.AbsoluteUri}?{sasToken}";
