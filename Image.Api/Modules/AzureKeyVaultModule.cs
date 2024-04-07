@@ -12,7 +12,7 @@ namespace Image.Api.Modules
             if (isProductionEnvironment)
             {
                 services.AddSingleton(provider =>
-                    new SecretClient(new Uri(configuration.GetValue<string>("key-vault-uri")), new DefaultAzureCredential()));
+                    new SecretClient(new Uri(configuration.GetValue<string>("AzureKeyVaultUri")), new DefaultAzureCredential()));
                 services.AddSingleton<ISecretService, KeyVaultService>();
 
                 return services;
