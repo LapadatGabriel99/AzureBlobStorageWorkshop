@@ -19,7 +19,7 @@ namespace Image.Api.Extensions
 
             sasBuilder.SetPermissions(BlobSasPermissions.Read);
 
-            var storageAccountKey = configuration.GetValue<string>("AzureBlobStorageKey");
+            var storageAccountKey = configuration.GetValue<string>("storage-account-key");
             var sasToken = sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(blobClient.AccountName, storageAccountKey)).ToString();
 
             return $"{blobClient.Uri.AbsoluteUri}?{sasToken}";

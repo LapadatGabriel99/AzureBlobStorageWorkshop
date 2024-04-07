@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddAzureKeyVault(builder.Configuration, builder.Environment.IsProduction());
 builder.Services.AddAzureStorage(builder.Configuration);
 builder.Services.AddServices();
 builder.Services.AddControllers(options =>
