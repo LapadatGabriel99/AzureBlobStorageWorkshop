@@ -1,5 +1,4 @@
 ﻿using Image.Api.Services.Contracts;
-using Microsoft.Extensions.Configuration;
 
 namespace Image.Api.Services
 {
